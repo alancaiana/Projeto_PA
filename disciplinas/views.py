@@ -1,8 +1,9 @@
-# projetoPA/disciplinas/views.py
+# C:\Users\Alan\Documents\Estudos\projetoPA\disciplinas\views.py
 
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import DisciplinaForm
-from .models import Disciplina
+from .forms import DisciplinaForm # Já deve estar aqui
+from .models import Disciplina, CronogramaDisciplina # Certifique-se de importar CronogramaDisciplina
+from .forms import CronogramaDisciplinaForm # Importaremos este formulário no próximo passo
 
 def cadastrar_disciplina(request):
     if request.method == 'POST':
@@ -38,3 +39,36 @@ def deletar_disciplina(request, pk):
 
 def home(request):
     return render(request, 'disciplinas/home.html')
+
+def listar_cronogramas(request):
+    # Puxa todos os cronogramas existentes, ordenados pelo nome da disciplina
+    cronogramas = CronogramaDisciplina.objects.all().order_by('disciplina__nome')
+    return render(request, 'disciplinas/cronograma_listar.html', {'cronogramas': cronogramas})
+
+def criar_cronograma(request):
+    if request.method == 'POST':
+        form = CronogramaDisciplinaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('listar_cronogramas') # Redireciona para a lista após criar
+    else:
+        form = CronogramaDisciplinaForm()
+    return render(request, 'disciplinas/cronograma_form.html', {'form': form, 'acao': 'Criar'})
+
+def editar_cronograma(request, pk):
+    cronograma = get_object_or_404(CronogramaDisciplina, pk=pk)
+    if request.method == 'POST':
+        form = CronogramaDisciplinaForm(request.POST, instance=cronograma)
+        if form.is_valid():
+            form.save()
+            return redirect('listar_cronogramas') # Redireciona para a lista após editar
+    else:
+        form = CronogramaDisciplinaForm(instance=cronograma)
+    return render(request, 'disciplinas/cronograma_form.html', {'form': form, 'acao': 'Editar', 'cronograma': cronograma})
+
+def deletar_cronograma(request, pk):
+    cronograma = get_object_or_404(CronogramaDisciplina, pk=pk)
+    if request.method == 'POST':
+        cronograma.delete()
+        return redirect('listar_cronogramas') # Redireciona para a lista após deletar
+    return render(request, 'disciplinas/cronograma_confirmar_deletar.html', {'cronograma': cronograma})

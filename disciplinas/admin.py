@@ -1,13 +1,13 @@
 # C:\Users\Alan\Documents\Estudos\projetoPA\disciplinas\admin.py
 
 from django.contrib import admin
-from django.urls import reverse # Importa reverse para gerar URLs
-from django.utils.html import format_html # Importa para formatar HTML
-from .models import Disciplina
+from django.urls import reverse 
+from django.utils.html import format_html 
+from .models import Disciplina, CronogramaDisciplina # Importe CronogramaDisciplina
 
-# Crie uma classe de admin para personalizar o modelo Disciplina
+
 class DisciplinaAdmin(admin.ModelAdmin):
-    # Campos que serão exibidos na lista de disciplinas no admin
+
     list_display = ('nome', 'codigo', 'ativa', 'link_para_minha_aba_html')
 
     # Cria uma coluna customizada para o link
@@ -20,3 +20,10 @@ class DisciplinaAdmin(admin.ModelAdmin):
     link_para_minha_aba_html.short_description = 'Ação Customizada' # Nome da coluna no admin
 
 admin.site.register(Disciplina, DisciplinaAdmin)
+
+@admin.register(CronogramaDisciplina)
+class CronogramaDisciplinaAdmin(admin.ModelAdmin):
+    list_display = ('disciplina', 'carga_horaria', 'dias_da_semana')
+    # Se quiser adicionar um filtro por disciplina:
+    list_filter = ('disciplina',)
+    search_fields = ('disciplina__nome', 'dias_da_semana') # Permite buscar por nome da disciplina

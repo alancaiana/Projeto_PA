@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirmar Exclusão</title>
+    <title>Cronograma de Estudos</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -131,24 +131,24 @@
             font-size: 12px;
         }
 
-        /* Estilos para tabelas (como em listar_disciplinas) */
-        .data-table {
+        /* Estilos da Tabela */
+        .cronograma-table {
             width: 100%;
             border-collapse: collapse;
             background-color: #fff;
             border-radius: 8px;
-            overflow: hidden;
+            overflow: hidden; /* Garante que bordas arredondadas funcionem com overflow */
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
 
-        .data-table th,
-        .data-table td {
+        .cronograma-table th,
+        .cronograma-table td {
             border: 1px solid #e0e0e0;
             padding: 12px 15px;
             text-align: left;
         }
 
-        .data-table th {
+        .cronograma-table th {
             background-color: #f8f8f8;
             font-weight: bold;
             color: #555;
@@ -156,11 +156,11 @@
             font-size: 13px;
         }
 
-        .data-table tr:nth-child(even) {
-            background-color: #fdfdfd;
+        .cronograma-table tr:nth-child(even) {
+            background-color: #fdfdfd; /* Fundo para linhas pares */
         }
 
-        .data-table tr:hover {
+        .cronograma-table tr:hover {
             background-color: #f5f5f5;
         }
 
@@ -168,24 +168,63 @@
         .icon {
             font-size: 16px;
         }
-        .icon-trash-confirm::before { content: '🗑️'; } /* Ícone para confirmar exclusão */
-        .icon-cancel::before { content: '✖️'; } /* Ícone para cancelar */
+        .icon-edit::before { content: '✎'; }
+        .icon-view::before { content: '🔍'; }
+        .icon-add::before { content: '➕'; }
+        .icon-delete::before { content: '🗑️'; }
+        .icon-export::before { content: '📄'; }
+        .icon-share::before { content: '🔗'; }
+        .icon-sync::before { content: '🗓️'; }
+        .icon-home::before { content: '🏠'; } /* Ícone de casa para a home */
     </style>
 </head>
 <body>
 
     <div class="sidebar">
         <div class="sidebar-icon">≡</div>
-    </div>
+        </div>
 
     <div class="main-content">
-        <h1>Confirmar Exclusão de Disciplina</h1>
-        <p style="text-align: center; margin-bottom: 20px; font-size: 1.1em; color: #555;">Você tem certeza que deseja excluir a disciplina "<strong>{{ disciplina.nome }}</strong>"?</p>
-        <form method="post" style="text-align: center;">
-            {% csrf_token %}
-            <button type="submit" class="action-button danger"><span class="icon icon-trash-confirm"></span> Sim, Excluir</button>
-            <a href="{% url 'listar_disciplinas' %}" class="action-button"><span class="icon icon-cancel"></span> Não, Cancelar</a>
-        </form>
+        <div class="action-bar" style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
+            <a href="{% url 'criar_cronograma' %}" class="action-button primary"><span class="icon icon-add"></span> Adicionar ao Cronograma</a>
+            <a href="#" class="action-button"><span class="icon icon-edit"></span> Editar Cronograma</a> 
+            <a href="#" class="action-button"><span class="icon icon-export"></span> Exportar PDF</a> {# Necessita implementação de exportação #}
+            <a href="#" class="action-button"><span class="icon icon-share"></span> Compartilhar</a> {# Necessita implementação #}
+            <a href="#" class="action-button"><span class="icon icon-sync"></span> Sincronizar Calendário</a> {# Necessita implementação #}
+
+            <a href="{% url 'home' %}" class="action-button" style="margin-left: auto;"><span class="icon icon-home"></span> Voltar para a Página Inicial</a> 
+        </div>
+
+        <h2>Cronograma criado</h2>
+
+        {% if cronogramas %}
+            <table class="cronograma-table">
+                <thead>
+                    <tr>
+                        <th>Disciplina</th>
+                        <th>Carga Horária</th>
+                        <th>Dias da Semana</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cronograma in cronogramas %}
+                        <tr>
+                            <td>{{ cronograma.disciplina.nome }}</td>
+                            <td>{{ cronograma.carga_horaria }}</td>
+                            <td>{{ cronograma.dias_da_semana }}</td>
+                            <td style="display: flex; gap: 5px;">
+                                <a href="{% url 'editar_cronograma' cronograma.pk %}" class="action-button"><span class="icon icon-edit"></span> Editar</a>
+                                <a href="{% url 'deletar_cronograma' cronograma.pk %}" class="action-button danger"><span class="icon icon-delete"></span> Excluir</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Nenhuma entrada de cronograma adicionada ainda.</p>
+            <p>Clique em "Adicionar ao Cronograma" para começar!</p>
+        {% endif %}
     </div>
 
 </body>

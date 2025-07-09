@@ -1,5 +1,3 @@
-# projetoPA/disciplinas/models.py
-
 from django.db import models
 
 class Disciplina(models.Model):
@@ -12,7 +10,30 @@ class Disciplina(models.Model):
     class Meta:
         verbose_name = "Disciplina"
         verbose_name_plural = "Disciplinas"
-        ordering = ['nome'] # Ordena as disciplinas pelo nome por padrão
+        ordering = ['nome']
 
     def __str__(self):
         return self.nome
+
+from django.db import models
+
+class Disciplina(models.Model):
+    nome = models.CharField(max_length=100)
+    codigo = models.CharField(max_length=20, unique=True)
+    descricao = models.TextField(blank=True, null=True)
+    ativa = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.nome
+
+class CronogramaDisciplina(models.Model):
+    disciplina = models.OneToOneField(Disciplina, on_delete=models.CASCADE, related_name='cronograma')
+    carga_horaria = models.CharField(max_length=50) 
+    dias_da_semana = models.CharField(max_length=200)
+
+    def __str__(self):
+        return f"Cronograma de {self.disciplina.nome}"
+
+    class Meta:
+        verbose_name = "Cronograma da Disciplina"
+        verbose_name_plural = "Cronogramas das Disciplinas"

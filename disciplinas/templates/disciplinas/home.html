@@ -5,25 +5,190 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página Inicial da Plataforma</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; background-color: #f4f4f4; }
-        .container { background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); max-width: 600px; margin: auto; }
-        h1 { color: #333; }
-        p { color: #666; line-height: 1.6; }
-        .nav-links a { margin: 0 15px; text-decoration: none; color: #007bff; font-weight: bold; }
-        .nav-links a:hover { text-decoration: underline; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5; /* Cor de fundo clara */
+            display: flex; /* Para alinhar a barra lateral e o conteúdo */
+            min-height: 100vh; /* Ocupa a altura total da viewport */
+        }
+
+        /* Estilos da Barra Lateral (Sidebar) */
+        .sidebar {
+            width: 70px; /* Largura da barra lateral */
+            background-color: #333; /* Cor escura da barra lateral */
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+
+        .sidebar-icon {
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Estilos do Conteúdo Principal */
+        .main-content {
+            flex-grow: 1; /* Ocupa o restante do espaço horizontal */
+            padding: 20px;
+            background-color: #fbfbfb; /* Fundo do container principal */
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.05);
+            margin: 20px; /* Margem ao redor do container principal */
+        }
+
+        /* Estilos de Títulos */
+        h1, h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 22px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        /* Estilos de Botões */
+        .action-button {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #333;
+            display: inline-flex; 
+            align-items: center;
+            gap: 5px;
+            transition: background-color 0.2s, border-color 0.2s;
+            text-decoration: none; 
+        }
+
+        .action-button:hover {
+            background-color: #e9e9e9;
+            border-color: #ccc;
+        }
+
+        .action-button.primary {
+            background-color: #4CAF50; 
+            color: white;
+            border-color: #4CAF50;
+        }
+
+        .action-button.primary:hover {
+            background-color: #45a049;
+            border-color: #45a049;
+        }
+
+        .action-button.danger {
+            background-color: #dc3545; 
+            color: white;
+            border-color: #dc3545;
+        }
+
+        .action-button.danger:hover {
+            background-color: #c82333;
+            border-color: #c82333;
+        }
+
+        form div {
+            margin-bottom: 15px;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        form input[type="text"],
+        form input[type="email"],
+        form input[type="password"],
+        form input[type="number"],
+        form textarea,
+        form select {
+            width: calc(100% - 22px); 
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        form input[type="checkbox"] {
+            margin-top: 5px;
+        }
+
+        .errorlist {
+            color: red;
+            list-style-type: none;
+            padding: 0;
+            margin-top: 5px;
+            font-size: 12px;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .data-table th,
+        .data-table td {
+            border: 1px solid #e0e0e0;
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        .data-table th {
+            background-color: #f8f8f8;
+            font-weight: bold;
+            color: #555;
+            text-transform: uppercase;
+            font-size: 13px;
+        }
+
+        .data-table tr:nth-child(even) {
+            background-color: #fdfdfd;
+        }
+
+        .data-table tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .icon {
+            font-size: 16px;
+        }
+        .icon-add::before { content: '➕'; }
+        .icon-edit::before { content: '✎'; }
+        .icon-delete::before { content: '🗑️'; }
+        .icon-home::before { content: '🏠'; }
+        .icon-calendar::before { content: '🗓️'; } 
+        .icon-view::before { content: '🔍'; }
     </style>
 </head>
 <body>
-    <div class="container">
+
+    <div class="sidebar">
+        <div class="sidebar-icon">≡</div>
+        </div>
+
+    <div class="main-content">
         <h1>Bem-vindo à sua Plataforma de Estudos!</h1>
-        <p>Este é o local central para gerenciar suas disciplinas.</p>
-        <div class="nav-links">
-            <p>
-                <a href="{% url 'cadastrar_disciplina' %}">Cadastrar Nova Disciplina</a>
-                <a href="{% url 'listar_disciplinas' %}">Ver Todas as Disciplinas</a>
-                <a href="{% url 'admin:index' %}">Painel de Administração</a>
-            </p>
+        <p>Este é o local central para gerenciar suas disciplinas e cronogramas.</p>
+        <div class="nav-links" style="display: flex; flex-wrap: wrap; gap: 10px;">
+            <a href="{% url 'cadastrar_disciplina' %}" class="action-button primary"><span class="icon icon-add"></span> Cadastrar Nova Disciplina</a>
+            <a href="{% url 'listar_disciplinas' %}" class="action-button"><span class="icon icon-view"></span> Ver Todas as Disciplinas</a>
+            <a href="{% url 'listar_cronogramas' %}" class="action-button"><span class="icon icon-calendar"></span> Ver Cronogramas</a> {# NOVO BOTÃO AQUI #}
+            <a href="{% url 'admin:index' %}" class="action-button"><span class="icon icon-home"></span> Painel de Administração</a>
         </div>
     </div>
+
 </body>
 </html>
