@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Inicial da Plataforma</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; background-color: #f4f4f4; }
+        .container { background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); max-width: 600px; margin: auto; }
+        h1 { color: #333; }
+        p { color: #666; line-height: 1.6; }
+        .nav-links a { margin: 0 15px; text-decoration: none; color: #007bff; font-weight: bold; }
+        .nav-links a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bem-vindo à sua Plataforma de Estudos!</h1>
+        <p>Este é o local central para gerenciar suas disciplinas.</p>
+        <div class="nav-links">
+            <p>
+                <a href="{% url 'cadastrar_disciplina' %}">Cadastrar Nova Disciplina</a>
+                <a href="{% url 'listar_disciplinas' %}">Ver Todas as Disciplinas</a>
+                <a href="{% url 'admin:index' %}">Painel de Administração</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

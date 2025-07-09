@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmar Exclusão</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #dc3545; }
+        p { text-align: center; margin-bottom: 20px; }
+        .buttons { text-align: center; }
+        .buttons button { background-color: #dc3545; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-right: 10px; }
+        .buttons button:hover { background-color: #c82333; }
+        .buttons a { background-color: #6c757d; color: white; padding: 10px 15px; text-decoration: none; border-radius: 4px; }
+        .buttons a:hover { background-color: #5a6268; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Confirmar Exclusão de Disciplina</h1>
+        <p>Você tem certeza que deseja excluir a disciplina "<strong>{{ disciplina.nome }}</strong>"?</p>
+        <form method="post" class="buttons">
+            {% csrf_token %}
+            <button type="submit">Sim, Excluir</button>
+            <a href="{% url 'listar_disciplinas' %}">Não, Cancelar</a>
+        </form>
+    </div>
+</body>
+</html>
