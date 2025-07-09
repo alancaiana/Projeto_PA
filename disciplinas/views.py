@@ -1,16 +1,14 @@
-# C:\Users\Alan\Documents\Estudos\projetoPA\disciplinas\views.py
-
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import DisciplinaForm # Já deve estar aqui
-from .models import Disciplina, CronogramaDisciplina # Certifique-se de importar CronogramaDisciplina
-from .forms import CronogramaDisciplinaForm # Importaremos este formulário no próximo passo
+from .forms import DisciplinaForm 
+from .models import Disciplina, CronogramaDisciplina 
+from .forms import CronogramaDisciplinaForm 
 
 def cadastrar_disciplina(request):
     if request.method == 'POST':
         form = DisciplinaForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('listar_disciplinas') # Redireciona para a lista após o cadastro
+            return redirect('listar_disciplinas') 
     else:
         form = DisciplinaForm()
     return render(request, 'disciplinas/cadastrar_disciplina.html', {'form': form})
