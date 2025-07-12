@@ -58,15 +58,5 @@ def logout_view(request):
     return redirect(settings.LOGOUT_REDIRECT_URL) 
 
 @login_required(login_url='accounts:login')
-def profile_view(request):
-    try:
-        profile = request.user.profile
-    except UserProfile.DoesNotExist:
-        messages.error(request, "Seu perfil não foi encontrado. Por favor, contate o administrador.")
-        return redirect('minha_plataforma_inicial')
-    
-    return render(request, 'accounts/profile.html', {'profile': profile, 'user': request.user})
-
-@login_required(login_url='accounts:login')
 def restricted_page(request):
     return render(request, 'accounts/restricted_page.html')

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revisar Disciplinas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding-top: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background-color: #fbfbfb;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.05);
+            padding: 30px;
+            max-width: 700px;
+            width: 100%;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 25px;
+            font-size: 24px;
+            text-align: center;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .review-item {
+            background-color: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 15px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .review-item h3 {
+            color: #4CAF50;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1.5em;
+        }
+        .review-item p {
+            margin-bottom: 15px;
+            color: #666;
+        }
+        .review-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .quality-button {
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.2s;
+            flex-shrink: 0;
+            min-width: 80px;
+            box-sizing: border-box;
+        }
+        .quality-button:hover {
+            background-color: #1976D2;
+        }
+        .quality-button.easy { background-color: #4CAF50; }
+        .quality-button.easy:hover { background-color: #45a049; }
+        .quality-button.good { background-color: #8BC34A; }
+        .quality-button.good:hover { background-color: #7CB342; }
+        .quality-button.average { background-color: #FFC107; color: #333;}
+        .quality-button.average:hover { background-color: #FFA000; }
+        .quality-button.hard { background-color: #FF5722; }
+        .quality-button.hard:hover { background-color: #E64A19; }
+        .quality-button.forget { background-color: #F44336; }
+        .quality-button.forget:hover { background-color: #D32F2F; }
+
+        .messages {
+            list-style: none;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            font-size: 0.9em;
+            text-align: left;
+        }
+        .messages li {
+            margin-bottom: 5px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .messages .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .messages .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6fb; }
+        .messages .info { background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        .messages .warning { background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
+
+        .action-button {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #333;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: background-color 0.2s, border-color 0.2s;
+            text-decoration: none;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+        .action-button:hover { background-color: #e9e9e9; }
+
+        .icon-home::before { content: '🏠'; }
+        .icon-user-profile::before { content: '👤'; }
+        .icon-logout::before { content: '🚪'; }
+
+        .top-nav {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .welcome-user {
+            color: #555;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    {% if user.is_authenticated %}
+    <div class="top-nav">
+        <span class="welcome-user">Olá, {{ user.username }}!</span>
+        {% if user.profile %}
+            <a href="{% url 'minha_plataforma_inicial' %}" class="action-button secondary"><span class="icon icon-user-profile"></span> Perfil</a>
+        {% endif %}
+        <a href="{% url 'accounts:logout' %}" class="action-button secondary"><span class="icon icon-logout"></span> Sair</a>
+    </div>
+    {% endif %}
+
+    <div class="container">
+        <h1>Disciplinas para Revisar Hoje ({{ hoje|date:"d/m/Y" }})</h1>
+
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {% if disciplinas_para_revisar %}
+            {% for item in disciplinas_para_revisar %}
+                <div class="review-item">
+                    <h3>{{ item.disciplina.nome }}</h3>
+                    <p><strong>Carga Horária:</strong> {{ item.carga_horaria }}h</p>
+                    <p><strong>Dias:</strong> 
+                        {% for dia in item.dias_da_semana.all %}
+                            {{ dia.nome }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </p>
+                    <p>Último Estudo: <strong>{{ item.last_reviewed|default:"N/A"|date:"d/m/Y" }}</strong></p>
+                    <p>Próxima revisão agendada para: <strong>{{ item.next_review|date:"d/m/Y" }}</strong> (em {{ item.interval_days }} dias)</p>
+                    <p>Se você não revisar, ela voltará a aparecer aqui.</p>
+                    
+                    <form method="post" class="review-buttons">
+                        {% csrf_token %}
+                        <input type="hidden" name="cronograma_id" value="{{ item.pk }}">
+                        <button type="submit" name="quality" value="5" class="quality-button easy">Fácil (5)</button>
+                        <button type="submit" name="quality" value="4" class="quality-button good">Bom (4)</button>
+                        <button type="submit" name="quality" value="3" class="quality-button average">Razoável (3)</button>
+                        <button type="submit" name="quality" value="2" class="quality-button hard">Difícil (2)</button>
+                        <button type="submit" name="quality" value="0" class="quality-button forget">Esqueci (0)</button>
+                    </form>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Nenhuma disciplina para revisar hoje. Ótimo trabalho!</p>
+            <p>Volte outro dia ou adicione mais cronogramas.</p>
+        {% endif %}
+
+        <div style="margin-top: 30px; text-align: center;">
+            <a href="{% url 'minha_plataforma_inicial' %}" class="action-button secondary"><span class="icon icon-home"></span> Voltar para o Início</a>
+        </div>
+    </div>
+</body>
+</html>

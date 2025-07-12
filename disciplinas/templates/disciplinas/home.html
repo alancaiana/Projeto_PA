@@ -5,18 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página Inicial da Plataforma</title>
     <style>
-        /* CSS GERAL PARA ESTILO DA PÁGINA */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f0f2f5;
             display: flex;
-            justify-content: center; /* Centraliza horizontalmente */
-            align-items: center; /* Centraliza verticalmente (se o conteúdo for menor que a tela) */
-            min-height: 100vh; /* Garante que o corpo ocupe pelo menos 100% da altura da viewport */
-            padding-top: 20px; /* Espaço para o top-nav */
-            box-sizing: border-box; /* Inclui padding na altura total */
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding-top: 20px;
+            box-sizing: border-box;
         }
 
         .container {
@@ -24,10 +23,10 @@
             border-radius: 8px;
             box-shadow: 0 0 15px rgba(0,0,0,0.05);
             padding: 30px;
-            max-width: 600px; /* Largura máxima do container */
-            width: 100%; /* Ocupa a largura total disponível (até o max-width) */
-            box-sizing: border-box; /* Inclui padding na largura total */
-            position: relative; /* Para o top-nav absoluto */
+            max-width: 600px;
+            width: 100%;
+            box-sizing: border-box;
+            position: relative;
         }
 
         h1 {
@@ -45,7 +44,6 @@
             margin-bottom: 30px;
         }
 
-        /* ESTILOS DE BOTÕES */
         .action-button {
             background-color: #4CAF50;
             color: white;
@@ -54,12 +52,12 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
-            display: inline-flex; /* Para alinhar ícone e texto */
+            display: inline-flex;
             align-items: center;
-            gap: 5px; /* Espaçamento entre ícone e texto */
-            transition: background-color 0.2s, border-color 0.2s; /* Transição suave */
-            text-decoration: none; /* Remove sublinhado de links que atuam como botões */
-            justify-content: center; /* Centraliza conteúdo em botões de largura total */
+            gap: 5px;
+            transition: background-color 0.2s, border-color 0.2s;
+            text-decoration: none;
+            justify-content: center;
             box-sizing: border-box;
         }
 
@@ -68,7 +66,7 @@
             border-color: #45a049;
         }
 
-        .action-button.secondary { /* Estilo para botões secundários */
+        .action-button.secondary {
             background-color: #fff;
             color: #333;
             border-color: #ddd;
@@ -78,7 +76,7 @@
             border-color: #ccc;
         }
 
-        .action-button.danger { /* Estilo para botões de ação perigosa (excluir) */
+        .action-button.danger {
             background-color: #dc3545;
             color: white;
             border-color: #dc3545;
@@ -88,14 +86,13 @@
             border-color: #c82333;
         }
 
-        /* ESTILOS PARA MENSAGENS DO DJANGO (sucesso, erro, info, etc.) */
         .messages {
             list-style: none;
             padding: 10px;
             margin-bottom: 20px;
             border-radius: 5px;
             font-size: 0.9em;
-            text-align: left; /* Garante alinhamento das mensagens */
+            text-align: left;
         }
         .messages li {
             margin-bottom: 5px;
@@ -108,22 +105,21 @@
         .messages .info { background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
         .messages .warning { background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
 
-        /* ESTILOS PARA ÍCONES (simulados com caracteres Unicode) */
         .icon-add::before { content: '➕'; }
-        .icon-view::before { content: '🔍'; } /* Lupa para visualização */
+        .icon-view::before { content: '🔍'; }
         .icon-calendar::before { content: '📅'; }
-        .icon-admin::before { content: '⚙️'; } /* Ícone para Painel de Administração (engrenagem) */
-        .icon-user-profile::before { content: '👤'; } /* Ícone para perfil */
-        .icon-logout::before { content: '🚪'; } /* Ícone para logout */
+        .icon-admin::before { content: '⚙️'; }
+        .icon-user-profile::before { content: '👤'; }
+        .icon-logout::before { content: '🚪'; }
+        .icon-check::before { content: '✔️'; }
 
-        /* LAYOUT DA BARRA SUPERIOR DE NAVEGAÇÃO (PERFIL/LOGOUT) */
         .top-nav {
             position: absolute;
             top: 20px;
             right: 20px;
             display: flex;
-            gap: 10px; /* Espaço entre os itens */
-            align-items: center; /* Alinha verticalmente os itens */
+            gap: 10px;
+            align-items: center;
         }
         .welcome-user {
             color: #555;
@@ -131,29 +127,45 @@
             margin-right: 5px;
         }
 
-        /* Layout dos botões da página inicial */
         .button-grid {
             display: flex;
-            flex-wrap: wrap; /* Permite que os botões quebrem para a próxima linha */
-            gap: 15px; /* Espaçamento entre os botões */
-            justify-content: center; /* Centraliza os botões */
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
             margin-top: 30px;
         }
         .button-grid .action-button {
-            min-width: 200px; /* Largura mínima para os botões */
-            flex-grow: 1; /* Permite que os botões cresçam para preencher o espaço */
+            min-width: 200px;
+            flex-grow: 1;
+        }
+
+        .profile-summary {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            background-color: #fcfcfc;
+        }
+        .profile-summary p {
+            margin: 5px 0;
+            font-size: 1.1em;
+            color: #444;
+        }
+        .profile-summary strong {
+            color: #333;
+        }
+        .profile-summary .profile-value {
+            font-weight: normal;
+            color: #666;
         }
     </style>
 </head>
 <body>
-    {# Verifica se o usuário está logado para mostrar a barra de navegação superior #}
     {% if user.is_authenticated %}
     <div class="top-nav">
         <span class="welcome-user">Olá, {{ user.username }}!</span>
-        {# O link para o perfil só aparece se o objeto 'user.profile' existir #}
-        {% if user.profile %}
-            <a href="{% url 'accounts:profile' %}" class="action-button secondary"><span class="icon icon-user-profile"></span> Perfil</a>
-        {% endif %}
+        {# BOTÃO PERFIL REMOVIDO DAQUI #}
         <a href="{% url 'accounts:logout' %}" class="action-button secondary"><span class="icon icon-logout"></span> Sair</a>
     </div>
     {% endif %}
@@ -162,7 +174,6 @@
         <h1>Bem-vindo à sua Plataforma de Estudos!</h1>
         <p>Este é o local central para gerenciar suas disciplinas e cronogramas.</p>
 
-        {# Exibe mensagens do Django (sucesso, erro, etc.) #}
         {% if messages %}
             <ul class="messages">
                 {% for message in messages %}
@@ -171,11 +182,25 @@
             </ul>
         {% endif %}
 
+        {% if user.is_authenticated and profile %}
+            <div class="profile-summary">
+                <h2>Seu Perfil</h2>
+                <p><strong>Nome de Usuário:</strong> <span class="profile-value">{{ user.username }}</span></p>
+                <p><strong>E-mail:</strong> <span class="profile-value">{{ user.email }}</span></p>
+                <p><strong>Nome Completo:</strong> <span class="profile-value">{{ profile.nome_completo|default:"Não informado" }}</span></p>
+                <p><strong>Matrícula:</strong> <span class="profile-value">{{ profile.matricula|default:"Não informada" }}</span></p>
+                <p><strong>Curso:</strong> <span class="profile-value">{% if profile.curso %}{{ profile.curso.nome }}{% else %}Não informado{% endif %}</span></p>
+                <p><strong>Disciplinas Cadastradas:</strong> <span class="profile-value">{{ disciplina_count }}</span></p>
+                <p><strong>Cronogramas Cadastrados:</strong> <span class="profile-value">{{ cronograma_count }}</span></p>
+            </div>
+        {% endif %}
+
         <div class="button-grid">
             <a href="{% url 'cadastrar_disciplina' %}" class="action-button"><span class="icon icon-add"></span> Cadastrar Nova Disciplina</a>
             <a href="{% url 'listar_disciplinas' %}" class="action-button secondary"><span class="icon icon-view"></span> Ver Todas as Disciplinas</a>
             <a href="{% url 'listar_cronogramas' %}" class="action-button secondary"><span class="icon icon-calendar"></span> Ver Cronogramas</a>
-            {% if user.is_superuser %} {# Link para admin apenas para superusuários #}
+            <a href="{% url 'revisar_disciplinas' %}" class="action-button primary"><span class="icon icon-check"></span> Revisar Disciplinas</a>
+            {% if user.is_superuser %}
                 <a href="{% url 'admin:index' %}" class="action-button secondary"><span class="icon icon-admin"></span> Painel de Administração</a>
             {% endif %}
         </div>

@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Confirmar Exclusão</title>
     <style>
-        /* CSS GERAL PARA ESTILO DA PÁGINA */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -28,7 +27,7 @@
             width: 100%;
             box-sizing: border-box;
             position: relative;
-            text-align: center; /* Centraliza o texto do container */
+            text-align: center;
         }
 
         h1 {
@@ -46,7 +45,6 @@
             line-height: 1.6;
         }
 
-        /* ESTILOS DE BOTÕES */
         .action-button {
             background-color: #4CAF50;
             color: white;
@@ -89,7 +87,6 @@
             border-color: #c82333;
         }
 
-        /* ESTILOS PARA MENSAGENS DO DJANGO */
         .messages {
             list-style: none;
             padding: 10px;
@@ -109,13 +106,11 @@
         .messages .info { background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
         .messages .warning { background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
 
-        /* ESTILOS PARA ÍCONES */
-        .icon-confirm::before { content: '✔️'; } /* Ícone de confirmação */
+        .icon-confirm::before { content: '✔️'; }
         .icon-cancel::before { content: '✖️'; }
         .icon-user-profile::before { content: '👤'; }
         .icon-logout::before { content: '🚪'; }
 
-        /* LAYOUT DA BARRA SUPERIOR DE NAVEGAÇÃO (PERFIL/LOGOUT) */
         .top-nav {
             position: absolute;
             top: 20px;
@@ -138,14 +133,10 @@
     </style>
 </head>
 <body>
-    {# Verifica se o usuário está logado para mostrar a barra de navegação superior #}
     {% if user.is_authenticated %}
     <div class="top-nav">
         <span class="welcome-user">Olá, {{ user.username }}!</span>
-        {# O link para o perfil só aparece se o objeto 'user.profile' existir #}
-        {% if user.profile %}
-            <a href="{% url 'accounts:profile' %}" class="action-button secondary"><span class="icon icon-user-profile"></span> Perfil</a>
-        {% endif %}
+        {# BOTÃO PERFIL REMOVIDO DAQUI #}
         <a href="{% url 'accounts:logout' %}" class="action-button secondary"><span class="icon icon-logout"></span> Sair</a>
     </div>
     {% endif %}
@@ -166,6 +157,7 @@
             <div class="button-group">
                 <button type="submit" class="action-button danger"><span class="icon icon-confirm"></span> Confirmar Exclusão</button>
                 <a href="{% url 'listar_disciplinas' %}" class="action-button secondary"><span class="icon icon-cancel"></span> Cancelar</a>
+                <a href="{% url 'minha_plataforma_inicial' %}" class="action-button secondary" style="margin-left: 10px;"><span class="icon icon-home"></span> Voltar para o Início</a>
             </div>
         </form>
     </div>
