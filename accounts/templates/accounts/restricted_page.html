@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Cronogramas</title>
+    <title>Página Restrita</title>
     <style>
         /* CSS GERAL PARA ESTILO DA PÁGINA */
         body {
@@ -13,7 +13,7 @@
             background-color: #f0f2f5;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
+            align-items: center;
             min-height: 100vh;
             padding-top: 20px;
             box-sizing: border-box;
@@ -24,42 +24,46 @@
             border-radius: 8px;
             box-shadow: 0 0 15px rgba(0,0,0,0.05);
             padding: 30px;
-            max-width: 900px;
+            max-width: 600px;
             width: 100%;
             box-sizing: border-box;
+            text-align: center;
             position: relative;
         }
 
-        h1, h2 {
+        h1 {
             color: #333;
             margin-bottom: 25px;
             font-size: 24px;
-            text-align: center;
             border-bottom: 2px solid #eee;
             padding-bottom: 10px;
         }
 
+        p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
         /* ESTILOS DE BOTÕES */
         .action-button {
-            background-color: #4CAF50;
-            color: white;
-            border: 1px solid #4CAF50;
-            padding: 10px 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 8px 15px;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 14px;
+            color: #333;
             display: inline-flex;
             align-items: center;
             gap: 5px;
             transition: background-color 0.2s, border-color 0.2s;
             text-decoration: none;
-            justify-content: center;
-            box-sizing: border-box;
         }
 
         .action-button:hover {
-            background-color: #45a049;
-            border-color: #45a049;
+            background-color: #e9e9e9;
+            border-color: #ccc;
         }
 
         .action-button.secondary {
@@ -70,16 +74,6 @@
         .action-button.secondary:hover {
             background-color: #e9e9e9;
             border-color: #ccc;
-        }
-
-        .action-button.danger {
-            background-color: #dc3545;
-            color: white;
-            border-color: #dc3545;
-        }
-        .action-button.danger:hover {
-            background-color: #c82333;
-            border-color: #c82333;
         }
 
         /* ESTILOS PARA MENSAGENS DO DJANGO */
@@ -103,14 +97,7 @@
         .messages .warning { background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
 
         /* ESTILOS PARA ÍCONES */
-        .icon-add::before { content: '➕'; }
-        .icon-edit::before { content: '✎'; }
-        .icon-delete::before { content: '🗑️'; }
         .icon-home::before { content: '🏠'; }
-        .icon-calendar::before { content: '📅'; }
-        .icon-export::before { content: '📄'; }
-        .icon-share::before { content: '🔗'; }
-        .icon-sync::before { content: '🗓️'; }
         .icon-user-profile::before { content: '👤'; }
         .icon-logout::before { content: '🚪'; }
 
@@ -128,39 +115,6 @@
             font-weight: bold;
             margin-right: 5px;
         }
-        /* ESTILOS DE TABELA */
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: #fff;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            margin-top: 20px;
-        }
-
-        .data-table th,
-        .data-table td {
-            border: 1px solid #e0e0e0;
-            padding: 12px 15px;
-            text-align: left;
-        }
-
-        .data-table th {
-            background-color: #f8f8f8;
-            font-weight: bold;
-            color: #555;
-            text-transform: uppercase;
-            font-size: 13px;
-        }
-
-        .data-table tr:nth-child(even) {
-            background-color: #fdfdfd;
-        }
-
-        .data-table tr:hover {
-            background-color: #f5f5f5;
-        }
     </style>
 </head>
 <body>
@@ -177,7 +131,7 @@
     {% endif %}
 
     <div class="container">
-        <h1>Lista de Cronogramas</h1>
+        <h1>Página Restrita</h1>
         {% if messages %}
             <ul class="messages">
                 {% for message in messages %}
@@ -185,40 +139,9 @@
                 {% endfor %}
             </ul>
         {% endif %}
-        <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
-            <a href="{% url 'criar_cronograma' %}" class="action-button primary"><span class="icon icon-add"></span> Adicionar ao Cronograma</a>
-            <a href="{% url 'minha_plataforma_inicial' %}" class="action-button secondary"><span class="icon icon-home"></span> Voltar para o Início</a> {# MUDANÇA AQUI #}
-        </div>
-
-        {% if cronogramas %}
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Disciplina</th>
-                        <th>Carga Horária</th>
-                        <th>Dias da Semana</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for cronograma in cronogramas %}
-                        <tr>
-                            <td>{{ cronograma.disciplina.nome }}</td>
-                            <td>{{ cronograma.carga_horaria }} h</td>
-                            <td>{{ cronograma.dias_da_semana }}</td>
-                            <td style="display: flex; gap: 5px;">
-                                <a href="{% url 'editar_cronograma' cronograma.pk %}" class="action-button secondary"><span class="icon icon-edit"></span> Editar</a>
-                                <a href="{% url 'deletar_cronograma' cronograma.pk %}" class="action-button danger"><span class="icon icon-delete"></span> Excluir</a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        {% else %}
-            <p>Nenhum cronograma cadastrado ainda.</p>
-            <p>Clique em "Adicionar ao Cronograma" para começar!</p>
-        {% endif %}
+        <p>Olá, {% if user.is_authenticated %}{{ user.username }}{% else %}Usuário não logado{% endif %}! Você está logado e pode ver esta página.</p>
+        <p>Esta página só pode ser acessada por usuários autenticados.</p>
+        <a href="{% url 'minha_plataforma_inicial' %}" class="action-button secondary"><span class="icon icon-home"></span> Voltar para o Início</a> {# MUDANÇA AQUI #}
     </div>
-
 </body>
 </html>

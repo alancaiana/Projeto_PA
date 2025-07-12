@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import reverse 
 from django.utils.html import format_html 
-from .models import Disciplina, CronogramaDisciplina 
+from .models import Disciplina, CronogramaDisciplina, Curso
 
 
 class DisciplinaAdmin(admin.ModelAdmin):
@@ -21,3 +21,8 @@ class CronogramaDisciplinaAdmin(admin.ModelAdmin):
     list_display = ('disciplina', 'carga_horaria', 'dias_da_semana')
     list_filter = ('disciplina',)
     search_fields = ('disciplina__nome', 'dias_da_semana') 
+
+@admin.register(Curso)
+class CursoAdmin(admin.ModelAdmin):
+    list_display = ('nome',)
+    search_fields = ('nome',)

@@ -1,7 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import DisciplinaForm 
 from .models import Disciplina, CronogramaDisciplina 
-from .forms import CronogramaDisciplinaForm 
+from .forms import CronogramaDisciplinaForm
+from accounts.forms import CustomAuthenticationForm
+
+def home(request):
+    form = CustomAuthenticationForm() # Cria uma instância do formulário de login
+    return render(request, 'disciplinas/home.html', {'form': form}) # Passa o formulário para o template
 
 def cadastrar_disciplina(request):
     if request.method == 'POST':
