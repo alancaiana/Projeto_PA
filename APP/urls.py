@@ -9,5 +9,5 @@ urlpatterns = [
     path('accounts/', include('accounts.urls', namespace='accounts')),
 
     path('', RedirectView.as_view(url='/accounts/login/', permanent=True), name='home'),
-    path('minha_plataforma_inicial/', views.minha_plataforma_inicial, name='minha_plataforma_inicial'), # CORRIGIDO
+    path('minha_plataforma_inicial/', views.minha_plataforma_inicial, name='minha_plataforma_inicial'), 
 ]

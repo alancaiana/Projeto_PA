@@ -19,9 +19,9 @@ def register_view(request):
             curso_selecionado = form.cleaned_data.get('curso')
             UserProfile.objects.create(user=user, curso=curso_selecionado)
 
-            login(request, user)
-            messages.success(request, 'Conta criada e login efetuado com sucesso!')
-            return redirect(settings.LOGIN_REDIRECT_URL)
+            messages.success(request, 'Conta criada com sucesso! Faça login para continuar.')
+            return redirect(settings.LOGOUT_REDIRECT_URL) 
+            
         else:
             for field, errors in form.errors.items():
                 for error in errors:
