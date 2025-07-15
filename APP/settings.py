@@ -8,6 +8,8 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['alancaiana_pythonanywhere.pythonanywhere.com']
 
+CSRF_TRUSTED_ORIGINS = ['https://alancaiana_pythonanywhere.pythonanywhere.com']
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
