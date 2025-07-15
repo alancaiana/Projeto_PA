@@ -6,9 +6,9 @@ SECRET_KEY = 'django-insecure-efv%k$n-^pocff6*h&*n57m+vm6=++h0!q9pqr@rnuw3&_&e8r
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['alancaiana_pythonanywhere.pythonanywhere.com']
+ALLOWED_HOSTS = ['alancaiana.pythonanywhere.com']
 
-CSRF_TRUSTED_ORIGINS = ['https://alancaiana_pythonanywhere.pythonanywhere.com']
+CSRF_TRUSTED_ORIGINS = ['https://alancaiana.pythonanywhere.com']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
